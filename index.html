@@ -28,7 +28,7 @@ import { IndexedCache } from "https://code4fukui.github.io/IndexedCache/IndexedC
 
 intext.disabled = true;
 intext.value = "loading...";
-const cache = await IndexedCache.create("cache-mjdic");
+const cache = await IndexedCache.create("cache-mjdic", 2);
 const bin = await cache.fetchOrLoad("./cedict_ts.csv");
 const data = CSV.parse(new TextDecoder().decode(bin));
 data.forEach(i => i.pron = Pinyin.decode(i.pron));
@@ -172,7 +172,7 @@ intext.oninput = () => {
   document.location.hash = encodeURIComponent(key);
 };
 
-intext.value = decodeURIComponent(document.location.hash.substring(1)) || "典";
+intext.value = decodeURIComponent(document.location.hash.substring(1)) || "三";
 intext.oninput();
 </script>
 
