@@ -2,20 +2,22 @@
 <link rel="icon" href="./icon.png">
 <link rel="apple-touch-icon" href="./icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>CE典</title>
+<title>MJ典</title>
 <body>
 <div id=divin>
-<input type=text id=intext><a href=#credit>CE典</a>
+<input type=text id=intext><a href=#credit>MJ典</a>
 </div>
 <div id=divresult></div>
 
 <footer>
 <a id=credit></a>
-<h1>CE典 - Chinese English Dictionary</h1>
+<h1>MJ典 - Mandarin Japanese Dictionary</h1>
 inspierd from: <a href=https://www.moedict.tw/>萌展</a><br>
+forked from: <a href=https://github.com/code4fukui/CEdic>CE典</a><br>
 data: CC BY-SA <a href=https://cc-cedict.org/editor/editor.php?handler=Main>CC-CEDICT Editor</a><br>
+Japanese translated by: <a href=https://github.com/code4fukui/DeepLAPI>DeepLAPI</a> (<a href=https://www.deepl.com/>DeepL</a>)<br>
 lib: MIT <a href=https://github.com/code4fukui/Pinyin/>Pinyin.js</a>, <a href=https://github.com/code4fukui/IndexedCache/>IndexedCache.js</a><br>
-app: MIT <a href=https://github.com/code4fukui/CEdic>src on GitHub</a> (<a href=https://fukuno.jig.jp/4190>blog 一日一創</a>)<br>
+app: MIT <a href=https://github.com/code4fukui/CEdic>src on GitHub</a> (<a href=https://fukuno.jig.jp/4195>blog 一日一創</a>)<br>
 </footer>
 
 
@@ -58,7 +60,11 @@ const setWithLink = (div, s) => {
   s = s.replace(/\//g, " / ");
   const ss = [];
   for (const c of s) {
-    if (!isKanji(c)) {
+    if (c == "\n") {
+      div.appendChild(document.createTextNode(ss.join("")));
+      ss.length = 0;
+      div.appendChild(document.createElement("br"));
+    } else if (!isKanji(c)) {
       ss.push(c);
     } else {
       div.appendChild(document.createTextNode(ss.join("")));
@@ -105,7 +111,10 @@ const list2htmlBlock = (div, data) => {
     const tr = cr("tr", tbl);
     set(cr("th", tr), "kanji");
     set(cr("td", tr), "kanji_s");
-    set(cr("td", tr), "means").setAttribute("rowspan", 2);
+    const td1 = cr("td", tr);
+    td1.className = "means";
+    setWithLink(td1, d.means_ja ? d.means_ja + "\n" + d.means : d.means);
+    td1.setAttribute("rowspan", 2);
     const tr2 = cr("tr", tbl);
     const tdp = cr("td", tr2);
     set(tdp, "pron").setAttribute("colspan", 2);
@@ -163,7 +172,7 @@ intext.oninput = () => {
   document.location.hash = encodeURIComponent(key);
 };
 
-intext.value = decodeURIComponent(document.location.hash.substring(1)) || "萌";
+intext.value = decodeURIComponent(document.location.hash.substring(1)) || "典";
 intext.oninput();
 </script>
 
