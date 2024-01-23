@@ -5,7 +5,7 @@ const deepl = new DeepLAPI();
 
 const fn = "./cedict_ts.csv";
 const data = await CSV.fetchJSON(fn);
-let cnt = 5000;
+let cnt = 130000;
 for (const d of data) {
   if (d.means.indexOf("variant of ") >= 0) continue;
   if (!d.means_ja) {
