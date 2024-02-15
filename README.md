@@ -1,4 +1,4 @@
-# EJ典 - English Japanese Dictionary
+# EJ典 - FastEJDic (English Japanese Dictionary)
 
 [EJ典](https://code4fukui.github.io/EJdic/)
 
