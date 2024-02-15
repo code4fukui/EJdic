@@ -2,22 +2,21 @@
 <link rel="icon" href="./icon.png">
 <link rel="apple-touch-icon" href="./icon.png">
 <meta name="apple-mobile-web-app-capable" content="yes">
-<title>MJ典</title>
+<title>EJ典 - FastEJDic</title>
 <body>
 <div id=divin>
-<input type=text id=intext><a href=#credit>MJ典</a>
+<input type=text id=intext><a href=#credit>EJ典 - FastEJDic</a>
 </div>
 <div id=divresult></div>
 
 <footer>
 <a id=credit></a>
-<h1>MJ典 - Mandarin Japanese Dictionary</h1>
+<h1>EJ典 - English Japanese Dictionary</h1>
 inspierd from: <a href=https://www.moedict.tw/>萌展</a><br>
-forked from: <a href=https://github.com/code4fukui/CEdic>CE典</a><br>
+forked from: <a href=https://github.com/code4fukui/MJdic>MJ典</a>, <a href=https://github.com/code4fukui/CEdic>CE典</a><br>
 data: CC BY-SA <a href=https://cc-cedict.org/editor/editor.php?handler=Main>CC-CEDICT Editor</a><br>
 Japanese translated by: <a href=https://github.com/code4fukui/DeepLAPI>DeepLAPI</a> (<a href=https://www.deepl.com/>DeepL</a>)<br>
-lib: MIT <a href=https://github.com/code4fukui/Pinyin/>Pinyin.js</a>, <a href=https://github.com/code4fukui/IndexedCache/>IndexedCache.js</a><br>
-app: MIT <a href=https://github.com/code4fukui/MJdic>src on GitHub</a> (<a href=https://fukuno.jig.jp/4195>blog 一日一創</a>)<br>
+app: MIT <a href=https://github.com/code4fukui/EJdic>src on GitHub</a> (<a href=https://fukuno.jig.jp/4222>blog 一日一創</a>)<br>
 </footer>
 
 
@@ -30,8 +29,14 @@ intext.disabled = true;
 intext.value = "loading...";
 const cache = await IndexedCache.create("cache-mjdic", 3);
 const bin = await cache.fetchOrLoad("./cedict_ts.csv");
-const data = CSV.parse(new TextDecoder().decode(bin));
-data.forEach(i => i.pron = Pinyin.decode(i.pron));
+const data0 = CSV.parse(new TextDecoder().decode(bin));
+const data = data0.filter(i => i.means.indexOf("variant of ") == -1);
+data.forEach(i => {
+  delete i.pron;
+  delete i.kanji;
+  delete i.kanji_s;
+});
+
 intext.disabled = false;
 intext.value = "";
 
@@ -109,16 +114,19 @@ const list2htmlBlock = (div, data) => {
       return td;
     };
     const tr = cr("tr", tbl);
+    /*
     set(cr("th", tr), "kanji");
     set(cr("td", tr), "kanji_s");
+    */
     const td1 = cr("td", tr);
     td1.className = "means";
     setWithLink(td1, d.means_ja ? d.means_ja + "\n" + d.means : d.means);
-    td1.setAttribute("rowspan", 2);
+    /*
     const tr2 = cr("tr", tbl);
     const tdp = cr("td", tr2);
-    set(tdp, "pron").setAttribute("colspan", 2);
-    tdp.onclick = () => speech(d.kanji);
+    //set(tdp, "pron").setAttribute("colspan", 2);
+    //tdp.onclick = () => speech(d.kanji);
+    */
   }
   div.innerHTML = "";
   div.appendChild(tbl);
@@ -145,6 +153,7 @@ intext.oninput = () => {
   }
   */
   const val = (i) => {
+    /*
     let pnt = i.means.indexOf("variant of ") >= 0 ? 0 : 1;
     if (i.kanji == key || i.kanji_s == key) {
       pnt += 8;
@@ -157,6 +166,8 @@ intext.oninput = () => {
     }
     pnt += 1 - i.kanji.length / 10;
     return pnt;
+    */
+    return -i.means_ja.length;
   };
   data2.sort((a, b) => val(b) - val(a));
   const flgmore = data2.length > maxcnt;
@@ -172,7 +183,7 @@ intext.oninput = () => {
   document.location.hash = encodeURIComponent(key);
 };
 
-intext.value = decodeURIComponent(document.location.hash.substring(1)) || "三";
+intext.value = decodeURIComponent(document.location.hash.substring(1)) || "日本";
 intext.oninput();
 </script>
 
@@ -208,6 +219,7 @@ input {
 }
 table {
   border-collapse: collapse;
+  width: 100%;
 }
 th, td {
   border: 1px solid black;
