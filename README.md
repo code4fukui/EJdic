@@ -1,9 +1,18 @@
-# EJ典 - FastEJDic (English Japanese Dictionary)
+# EJdic - FastEJDic (English Japanese Dictionary)
 
-[EJ典](https://code4fukui.github.io/EJdic/)
+> 日本語のREADMEはこちらです: [README.ja.md](README.ja.md)
 
-## reference
+[EJdic](https://code4fukui.github.io/EJdic/)
 
-- inspierd from: <a href=https://www.moedict.tw/>萌展</a>
-- forked from: <a href=https://github.com/code4fukui/MJdic>MJ典</a>, <a href=https://github.com/code4fukui/CEdic>CE典</a>
-- data: CC BY-SA <a href="https://cc-cedict.org/editor/editor.php?handler=Main">CC-CEDICT Editor</a>
+## Features
+- English-Japanese dictionary based on CC-CEDICT data
+- Instant search and results
+- Kanji links allow quick lookup
+- Japanese translations powered by DeepL
+
+## Data / API
+- Data source: CC BY-SA [CC-CEDICT Editor](https://cc-cedict.org/editor/editor.php?handler=Main)
+- Japanese translations by [DeepLAPI](https://github.com/code4fukui/DeepLAPI)
+
+## License
+MIT License — see [LICENSE](LICENSE).
